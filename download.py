@@ -1,0 +1,56 @@
+#!/usr/bin/python3
+
+import requests
+from bs4 import BeautifulSoup
+import optparse
+import sys
+import os
+import pdfkit
+
+ROOT_URL = "https://www.fanfiction.net/s/"
+
+def downloader(id) :
+	r = requests.get(ROOT_URL + id + "/1/")
+	
+	if r.status_code == 404 :
+		print('Not found!')
+		os._exit(0)
+
+	soup = BeautifulSoup(r.text, "lxml")
+	fic_info = soup.find("div",{'id' : 'profile_top'})
+	
+	fic_title = fic_info.find_all("b")[0].text
+	fic_author = fic_info.find_all("a")[0].text
+	fic_summary = fic_info.find_all("div")[1].text
+	#fic_rating = fic_info.find_all("a")[2].text
+	fic_status = fic_info.find("span",{'class' : 'xgray xcontrast_txt'}).text
+
+	fic_page1 = "<b>Title : </b>" + fic_title + "<br><br>" + "<b>Author : </b>" + fic_author + "<br><br>" + "<b>Summary : </b>" + fic_summary + "<br><br>" + fic_status + "<br><br><hr>"
+	#print(fic_page1)
+
+	#pdfkit.from_string(fic_page1, fic_title)
+	no_of_chapters = len(soup.find("select").find_all("option"))
+	story_text = ""
+
+	for i in range(1,no_of_chapters+1) :
+		#print(ROOT_URL+id+"/"+str(i)+"/")
+		r2 = requests.get(ROOT_URL+id+"/"+str(i)+"/")
+		soup2 = BeautifulSoup(r2.text, "lxml") 
+		story_text += str(soup2.find("div", {'id' : 'storytext'})) + "<br><br> End of the chapter <br><br><hr><br><br>"
+		#print(str(story_text))
+
+	pdfkit.from_string(fic_page1 + story_text, fic_title)
+
+
+def main() :
+	if len(sys.argv) != 2 :
+		print("./download.py <story_id>")
+		os._exit(0)
+	
+	STORY_ID = sys.argv[1]
+	downloader(STORY_ID)
+
+
+if __name__ == '__main__' :
+
+	main()
