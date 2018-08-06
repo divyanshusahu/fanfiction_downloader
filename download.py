@@ -31,14 +31,19 @@ def downloader(id) :
 	#pdfkit.from_string(fic_page1, fic_title)
 	no_of_chapters = len(soup.find("select").find_all("option"))
 	story_text = ""
+	print("Downloading " + fic_title)
 
 	for i in range(1,no_of_chapters+1) :
 		#print(ROOT_URL+id+"/"+str(i)+"/")
 		r2 = requests.get(ROOT_URL+id+"/"+str(i)+"/")
 		soup2 = BeautifulSoup(r2.text, "lxml") 
 		story_text += str(soup2.find("div", {'id' : 'storytext'})) + "<br><br> End of the chapter <br><br><hr><br><br>"
+		#print('*', end='')
+		#print(str((i/no_of_chapters)*100) + " %")
+		print("Chapter " + str(i) + " of " + str(no_of_chapters))
 		#print(str(story_text))
-
+	
+	print("Please Wait!")
 	pdfkit.from_string(fic_page1 + story_text, fic_title)
 
 
