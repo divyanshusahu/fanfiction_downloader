@@ -29,7 +29,12 @@ def downloader(id) :
 	#print(fic_page1)
 
 	#pdfkit.from_string(fic_page1, fic_title)
-	no_of_chapters = len(soup.find("select").find_all("option"))
+	try :
+		no_of_chapters = len(soup.find("select").find_all("option"))
+
+	except :
+		no_of_chapters = 1
+	
 	story_text = ""
 	print("Downloading " + fic_title)
 
