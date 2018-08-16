@@ -41,7 +41,7 @@ def downloader(id) :
 	for i in range(1,no_of_chapters+1) :
 		#print(ROOT_URL+id+"/"+str(i)+"/")
 		r2 = requests.get(ROOT_URL+id+"/"+str(i)+"/")
-		soup2 = BeautifulSoup(r2.text, "lxml") 
+		soup2 = BeautifulSoup(r2.text, "lxml")
 		story_text += str(soup2.find("div", {'id' : 'storytext'})) + "<br><br> End of the chapter <br><br><hr><br><br>"
 		#print('*', end='')
 		#print(str((i/no_of_chapters)*100) + " %")
@@ -49,7 +49,16 @@ def downloader(id) :
 		#print(str(story_text))
 	
 	print("Please Wait!")
-	pdfkit.from_string(fic_page1 + story_text, fic_title)
+	options = {
+		'page-size' : 'Letter',
+		'margin-top' : '0.75in',
+		'margin-right' : '0.75in',
+		'margin-bottom' : '0.75in',
+		'margin-left' : '0.75in',
+		'encoding' : "UTF-8",
+		'footer-center' : '[page] of [topage]'
+	}
+	pdfkit.from_string(fic_page1 + story_text, fic_title, options=options)
 
 
 def main() :
