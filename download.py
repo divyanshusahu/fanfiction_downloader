@@ -58,7 +58,7 @@ def downloader(id) :
 		'encoding' : "UTF-8",
 		'footer-center' : '[page] of [topage]'
 	}
-	pdfkit.from_string(fic_page1 + story_text, fic_title, options=options)
+	pdfkit.from_string(fic_page1 + story_text, fic_author + "-" + fic_title+".pdf", options=options)
 
 
 def main() :
