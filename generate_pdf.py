@@ -2,12 +2,13 @@
 
 import pdfkit
 import sys
+import os
 
 def main() :
 
 	if len(sys.argv) != 2 :
 		print("./generate_pdf.py <filenane>")
-		#sys.exit()
+		sys.exit()
 
 	filename = sys.argv[1]
 	with open(filename, 'rb') as f :
@@ -30,6 +31,8 @@ def main() :
 
 	newfile_name = filename.replace('.txt','.pdf')
 	pdfkit.from_string(data, newfile_name, options=options)
+
+	os.remove(filename)
 
 if __name__ == '__main__':
 	main()
