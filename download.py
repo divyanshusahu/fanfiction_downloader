@@ -42,6 +42,8 @@ def downloader(id) :
 		#print(ROOT_URL+id+"/"+str(i)+"/")
 		r2 = requests.get(ROOT_URL+id+"/"+str(i)+"/")
 		soup2 = BeautifulSoup(r2.text, "lxml")
+		#chapter_text = str(soup2.find("div", {"id": "storytext"}))
+		story_text += "<h2>Chapter %s </h2><br>" % (str(i))
 		story_text += str(soup2.find("div", {'id' : 'storytext'})) + "<br><br> End of the chapter <br><br><hr><br><br>"
 		#print('*', end='')
 		#print(str((i/no_of_chapters)*100) + " %")
