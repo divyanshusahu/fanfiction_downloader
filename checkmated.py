@@ -6,7 +6,7 @@ import requests
 	if r.status_code == 200 :
 		print i"""
 
-i = 1
+i = 301
 while True :
 	
 	url = "https://web.archive.org/web/submit?url=http://checkmated.com/story.php?story=%s&type=replay" % (str(i))

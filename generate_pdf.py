@@ -29,7 +29,10 @@ def main() :
 		'footer-center' : '[page] of [topage]'
 	}
 
-	newfile_name = filename.replace('.txt','.pdf')
+	if ".txt" in filename :
+		newfile_name = filename.replace('.txt','.pdf')
+	else :
+		newfile_name = filename + ".pdf"
 	pdfkit.from_string(data, newfile_name, options=options)
 
 	os.remove(filename)
